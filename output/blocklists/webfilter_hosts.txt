@@ -1,0 +1,4 @@
+# Hosts Sinkhole Format - Threat Intelligence Aggregator
+0.0.0.0 beacon-command-portal.xyz
+0.0.0.0 evil-c2-update.top
+0.0.0.0 secure-login-microsoft.online

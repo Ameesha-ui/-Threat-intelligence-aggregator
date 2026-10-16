@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Threat Intelligence Aggregator - Executive Report</title>
+<style>
+:root {
+  --bg-main: #0b0f19;
+  --bg-card: #111827;
+  --border-color: #1f2937;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --accent-cyan: #06b6d4;
+  --accent-blue: #3b82f6;
+  --sev-critical: #ef4444;
+  --sev-high: #f97316;
+  --sev-medium: #eab308;
+  --sev-low: #10b981;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  padding: 24px;
+  line-height: 1.5;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+.header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 12px;
+}
+.stat-title {
+  color: var(--text-muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text-main);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th, td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+th {
+  color: var(--text-muted);
+  font-weight: 600;
+  background: rgba(31, 41, 55, 0.4);
+}
+tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+.sev-tag {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.sev-CRITICAL { background: rgba(239, 68, 68, 0.2); color: var(--sev-critical); border: 1px solid var(--sev-critical); }
+.sev-HIGH { background: rgba(249, 115, 22, 0.2); color: var(--sev-high); border: 1px solid var(--sev-high); }
+.sev-MEDIUM { background: rgba(234, 179, 8, 0.2); color: var(--sev-medium); border: 1px solid var(--sev-medium); }
+.sev-LOW { background: rgba(16, 185, 129, 0.2); color: var(--sev-low); border: 1px solid var(--sev-low); }
+.search-input {
+  width: 100%;
+  max-width: 380px;
+  padding: 10px 14px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #fff;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  outline: none;
+}
+.search-input:focus {
+  border-color: var(--accent-cyan);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>🛡️ Threat Intelligence Aggregator <span class="badge">Non-AI Defensive Engine</span></h1>
+    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Normalized IOC Database, Cross-Feed Correlation & Automated Defensive Blocklists</p>
+  </div>
+  <div style="text-align: right; font-size: 13px; color: var(--text-muted);">
+    Generated: <strong>2026-10-16T17:56:57Z</strong>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-title">Total Unique IOCs</div>
+    <div class="stat-value" style="color: var(--accent-cyan);">171</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Repeated Multi-Feed Threats</div>
+    <div class="stat-value" style="color: var(--sev-critical);">6</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Active Feeds Ingested</div>
+    <div class="stat-value">9 / 9</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Critical & High Threats</div>
+    <div class="stat-value" style="color: var(--sev-high);">62</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🎯 High-Priority Repeated Indicators (Correlated Across Multiple Feeds)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Indicator (Defanged)</th>
+        <th>Type</th>
+        <th>Feeds Count</th>
+        <th>Sources</th>
+        <th>Severity</th>
+        <th>Risk Score</th>
+        <th>Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td><code>45[.]154[.]255[.]89</code></td>
+        <td><code>ipv4</code></td>
+        <td><strong>4 feeds</strong></td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>100</strong> / 100</td>
+        <td>abuseipdb, apt, c2, cert_alert, cisa, cobaltstrike, external_osint, internal, internal_edr_c2_alert, otx, scanner, soc_escalation</td>
+      </tr>
+      <tr>
+        <td><code>194[.]26[.]29[.]112</code></td>
+        <td><code>ipv4</code></td>
+        <td><strong>4 feeds</strong></td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, CISA_Advisory_Alerts, Custom_SOC_Feed</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>100</strong> / 100</td>
+        <td>abuseipdb, c2, c2_callback_beacon, cert_alert, cisa, custom_investigation, exploit, external_osint, otx, ransomware_beacon, scanner, soc_incident</td>
+      </tr>
+      <tr>
+        <td><code>185[.]220[.]101[.]5</code></td>
+        <td><code>ipv4</code></td>
+        <td><strong>3 feeds</strong></td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, Internal_SIEM_Detections</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>90</strong> / 100</td>
+        <td>abuseipdb, c2, external_osint, firewall_denied_outbound, internal, otx, scanner, soc_escalation, tor_exit_node</td>
+      </tr>
+      <tr>
+        <td><code>evil-c2-update[.]top</code></td>
+        <td><code>domain</code></td>
+        <td><strong>3 feeds</strong></td>
+        <td>AlienVault_OTX, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>90</strong> / 100</td>
+        <td>apt, apt29, c2, cert_alert, cisa, dns_tunneling_attempt, external_osint, internal, otx, soc_escalation</td>
+      </tr>
+      <tr>
+        <td><code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code></td>
+        <td><code>sha256</code></td>
+        <td><strong>3 feeds</strong></td>
+        <td>AlienVault_OTX, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>90</strong> / 100</td>
+        <td>cert_alert, cisa, edr_quarantined_ransomware, external_osint, internal, malicious-activity, otx, ransomware, ransomware_lockbit, soc_escalation</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://185[.]220[.]101[.]5/payload[.]bin</code></td>
+        <td><code>url</code></td>
+        <td><strong>2 feeds</strong></td>
+        <td>AlienVault_OTX, URLhaus_Payloads</td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td><strong>72</strong> / 100</td>
+        <td>cobaltstrike, dropper, external_osint, malware, otx, payload_delivery, trojan, urlhaus</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 12px;">
+    <div>
+      <h2>📋 Complete Unified IOC Inventory</h2>
+      <div id="searchStats" style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">Showing all indicators</div>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <input type="text" id="iocSearch" class="search-input" style="margin-bottom: 0;" placeholder="Search indicator, source, type, or tag..." oninput="filterTable()" onkeydown="if(event.key==='Enter'){ filterTable(); event.preventDefault(); }">
+      <button type="button" id="searchIndicatorBtn" onclick="filterTable()" style="background: var(--accent-blue); color: #fff; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">🔍 Search Indicator</button>
+      <select id="sevFilter" onchange="filterTable()" style="background: #1f2937; color: #fff; border: 1px solid #374151; padding: 9px 12px; border-radius: 8px; outline: none; font-size: 13px; cursor: pointer;">
+        <option value="">All Severities</option>
+        <option value="CRITICAL">Critical</option>
+        <option value="HIGH">High</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="LOW">Low</option>
+      </select>
+      <select id="typeFilter" onchange="filterTable()" style="background: #1f2937; color: #fff; border: 1px solid #374151; padding: 9px 12px; border-radius: 8px; outline: none; font-size: 13px; cursor: pointer;">
+        <option value="">All Types</option>
+        <option value="ipv4">IPv4</option>
+        <option value="domain">Domain</option>
+        <option value="url">URL</option>
+        <option value="sha256">SHA256</option>
+        <option value="md5">MD5</option>
+        <option value="email">Email</option>
+      </select>
+      <button type="button" id="clearBtn" onclick="clearSearch()" style="background: #374151; color: #f3f4f6; border: 1px solid #4b5563; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px;">Clear</button>
+    </div>
+  </div>
+  <table id="iocTable">
+    <thead>
+      <tr>
+        <th>Indicator</th>
+        <th>Type</th>
+        <th>Severity</th>
+        <th>Confidence</th>
+        <th>Feed Sources</th>
+        <th>Tags</th>
+        <th>Last Seen</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td><code>45[.]154[.]255[.]89</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>100</td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td>external_osint, cobaltstrike, c2, otx, abuseipdb, scanner, cisa, cert_alert, apt, internal, soc_escalation, internal_edr_c2_alert</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>194[.]26[.]29[.]112</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>100</td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, CISA_Advisory_Alerts, Custom_SOC_Feed</td>
+        <td>external_osint, ransomware_beacon, otx, abuseipdb, scanner, cisa, cert_alert, exploit, c2, soc_incident, custom_investigation, c2_callback_beacon</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>185[.]220[.]101[.]5</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>90</td>
+        <td>AlienVault_OTX, AbuseIPDB_Feed, Internal_SIEM_Detections</td>
+        <td>external_osint, tor_exit_node, c2, otx, abuseipdb, scanner, internal, soc_escalation, firewall_denied_outbound</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>evil-c2-update[.]top</code></td>
+        <td><code>domain</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>90</td>
+        <td>AlienVault_OTX, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td>external_osint, c2, otx, apt29, cisa, cert_alert, apt, internal, soc_escalation, dns_tunneling_attempt</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-14</td>
+      </tr>
+      <tr>
+        <td><code>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code></td>
+        <td><code>sha256</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>90</td>
+        <td>AlienVault_OTX, CISA_Advisory_Alerts, Internal_SIEM_Detections</td>
+        <td>external_osint, ransomware_lockbit, otx, cisa, cert_alert, malicious-activity, ransomware, internal, soc_escalation, edr_quarantined_ransomware</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-14</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://185[.]220[.]101[.]5/payload[.]bin</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-CRITICAL">CRITICAL</span></td>
+        <td>72</td>
+        <td>AlienVault_OTX, URLhaus_Payloads</td>
+        <td>external_osint, trojan, dropper, otx, urlhaus, malware, payload_delivery, cobaltstrike</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-11</td>
+      </tr>
+      <tr>
+        <td><code>beacon-command-portal[.]xyz</code></td>
+        <td><code>domain</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>45</td>
+        <td>Custom_SOC_Feed</td>
+        <td>custom_investigation, c2_dns_exfiltration, soc_incident</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>50[.]16[.]16[.]211</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>44</td>
+        <td>Live_Feodo_Tracker_C2</td>
+        <td>botnet, malware, feodo, c2</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://221[.]15[.]174[.]1:48113/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://112[.]236[.]99[.]190:33940/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://222[.]137[.]142[.]48:45402/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://222[.]138[.]137[.]53:40846/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://59[.]97[.]252[.]217:53607/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://222[.]140[.]182[.]244:54878/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://222[.]141[.]101[.]135:40830/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://123[.]13[.]118[.]252:41167/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]58[.]89[.]0:51202/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://105[.]225[.]46[.]164:41859/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://115[.]57[.]180[.]72:37087/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://115[.]56[.]103[.]148:47507/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://115[.]58[.]124[.]116:48872/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://124[.]92[.]174[.]228:48261/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://125[.]44[.]18[.]57:42027/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://222[.]241[.]232[.]126:50704/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://103[.]87[.]194[.]109:43848/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://103[.]172[.]186[.]194:56184/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]224[.]66[.]179:60764/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://cdn[.]discordapp[.]com/attachments/1560033976452784208/1560656548278177812/bundle[.]zip?ex=6ad3822c&is=6ad230ac&hm=53dfa7848e3a1fa67f3690161a896479b127d0186f6d8535dd8756065f9dddfb&</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://cdn[.]discordapp[.]com/attachments/1559625975262617600/1560662897582153798/bundle_1[.]zip?ex=6ad38816&is=6ad23696&hm=8b766e9e7dcbf6c140d7c942abfaddb52356c0668b1b4610d20c665ac47443ae&</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://cdn[.]discordapp[.]com/attachments/1560335003827830834/1560638070355918919/bundle[.]zip?ex=6ad370f7&is=6ad21f77&hm=066736990e6ab8ce348db0cd69cc3fe19daa6208c4f0d140d88e4cc0b075ef11&</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://exec-roblox[.]info/uploads/B%D0%BE%D0%BEts%D0%B5%D1%85%D0%B5%D1%8164[.]zip</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://dreambot[.]info/DreamBot[.]jar</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://167[.]148[.]201[.]191/80959</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]52[.]203[.]102:35206/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]56[.]135[.]154:45244/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]52[.]203[.]102:35206/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://182[.]119[.]12[.]51:40031/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]55[.]12[.]122:57818/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]238[.]71[.]29:57701/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://45[.]170[.]224[.]217:54091/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://216[.]126[.]86[.]205:47333/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://47[.]236[.]161[.]8:8281/linux</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://45[.]170[.]224[.]217:54091/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://219[.]155[.]202[.]252:42983/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://103[.]19[.]49[.]134:37431/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]235[.]91[.]212:50078/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://42[.]237[.]44[.]123:57470/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://60[.]23[.]179[.]155:39285/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://60[.]214[.]241[.]229:46912/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://59[.]97[.]250[.]175:52934/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://59[.]96[.]142[.]200:50954/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://175[.]146[.]210[.]83:59201/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://79[.]40[.]9[.]54:46856/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://182[.]116[.]15[.]211:52271/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://82[.]114[.]178[.]6:58035/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://cdn[.]discordapp[.]com/attachments/1519428468599951424/1560609388643749898/bundle_2[.]zip?ex=6ad35640&is=6ad204c0&hm=cb9fbf17c2878b6412f8eefc3829665eefecdf4b00da43aea25530480fc6c64e&</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://117[.]40[.]68[.]183:34273/bin[.]sh</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://83[.]228[.]109[.]209:33648/i</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>43</td>
+        <td>Live_URLhaus_Online_URLs</td>
+        <td>urlhaus, malware, payload</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://evil-c2-update[.]top/beacon[.]php?id=892</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>42</td>
+        <td>URLhaus_Payloads</td>
+        <td>urlhaus, malware, beacon, c2_traffic, apt29, c2</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-12</td>
+      </tr>
+      <tr>
+        <td><code>hxxps://cdn-invoices-verify[.]xyz/login/auth[.]exe</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>42</td>
+        <td>URLhaus_Payloads</td>
+        <td>urlhaus, malware, redline, infostealer, infostealer_drop</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-13</td>
+      </tr>
+      <tr>
+        <td><code>hxxp://malicious-telemetry[.]cc/gate[.]php</code></td>
+        <td><code>url</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>42</td>
+        <td>URLhaus_Payloads</td>
+        <td>urlhaus, malware, botnet_gate, botnet, loader</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-14</td>
+      </tr>
+      <tr>
+        <td><code>secure-login-microsoft[.]online</code></td>
+        <td><code>domain</code></td>
+        <td><span class="sev-tag sev-HIGH">HIGH</span></td>
+        <td>41</td>
+        <td>AlienVault_OTX</td>
+        <td>external_osint, credential-theft, phishing, otx</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-13</td>
+      </tr>
+      <tr>
+        <td><code>phishing-campaign-alert[@]internal-corp[.]net</code></td>
+        <td><code>email</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>39</td>
+        <td>Internal_SIEM_Detections</td>
+        <td>soc_escalation, spear_phishing_sender, internal</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-14</td>
+      </tr>
+      <tr>
+        <td><code>phishing-test-sender[@]security-audit[.]com</code></td>
+        <td><code>email</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>38</td>
+        <td>Custom_SOC_Feed</td>
+        <td>custom_investigation, spear_phishing_simulation, soc_incident</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>attacker[@]spoofed-bank-alert[.]com</code></td>
+        <td><code>email</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>34</td>
+        <td>AlienVault_OTX</td>
+        <td>external_osint, phishing, otx</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-12</td>
+      </tr>
+      <tr>
+        <td><code>193[.]142[.]59[.]174</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>33</td>
+        <td>AbuseIPDB_Feed</td>
+        <td>abuseipdb, scanner</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]251[.]167[.]20</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>33</td>
+        <td>AbuseIPDB_Feed</td>
+        <td>abuseipdb, scanner</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>91[.]240[.]118[.]172</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>33</td>
+        <td>AbuseIPDB_Feed</td>
+        <td>abuseipdb, scanner</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>corporate-spoof-alert[@]fake-login-service[.]org</code></td>
+        <td><code>email</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>30</td>
+        <td>Custom_SOC_Feed</td>
+        <td>custom_investigation, credential_harvesting, soc_incident</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>d41d8cd98f00b204e9800998ecf8427e</code></td>
+        <td><code>md5</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>30</td>
+        <td>Custom_SOC_Feed</td>
+        <td>custom_investigation, malicious_mimikatz_loader, soc_incident</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>101[.]33[.]78[.]144</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>101[.]47[.]133[.]255</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>101[.]47[.]28[.]226</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>101[.]96[.]195[.]253</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>101[.]96[.]203[.]141</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]130[.]193[.]150</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]110</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]115</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]124</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]237</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]42</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]160[.]67</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]119</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]170</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]173</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]27</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]28</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]79</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]85</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]220[.]161[.]86</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>102[.]223[.]209[.]43</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]105[.]74[.]30</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]113[.]171[.]119</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]118[.]182[.]33</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]121[.]20[.]18</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]12[.]205[.]20</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]140[.]54[.]101</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]146[.]23[.]23</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]148[.]79[.]138</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]154[.]137[.]43</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]154[.]81[.]166</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]159[.]2[.]113</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]159[.]51[.]70</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]160[.]5[.]123</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]170[.]215[.]118</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]214[.]100[.]4</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]228[.]36[.]205</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]28[.]37[.]12</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]28[.]38[.]27</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]39[.]93[.]76</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]47[.]15[.]110</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]57[.]64[.]11</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]77[.]172[.]146</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]83[.]86[.]39</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]83[.]87[.]15</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]83[.]87[.]185</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]83[.]87[.]34</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]83[.]87[.]37</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]87[.]16[.]26</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]90[.]25[.]52</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>103[.]90[.]67[.]3</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]155[.]100[.]207</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]155[.]17[.]130</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]155[.]26[.]39</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]155[.]88[.]246</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]155[.]92[.]149</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]199[.]53[.]45</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]199[.]86[.]173</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>104[.]199[.]98[.]110</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>106[.]13[.]48[.]135</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>107[.]150[.]123[.]48</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>108[.]142[.]154[.]184</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>109[.]226[.]38[.]244</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>110[.]10[.]176[.]164</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>111[.]29[.]52[.]71</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>112[.]133[.]196[.]66</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>113[.]145[.]250[.]146</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>113[.]98[.]254[.]50</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>115[.]190[.]235[.]8</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]1[.]213</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]150[.]20</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]159[.]55</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]208[.]66</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]209[.]18</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]211[.]16</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]211[.]73</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]213[.]169</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]217[.]75</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]220[.]232</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]223[.]150</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]4[.]78</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]6[.]141</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]110[.]8[.]118</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]52[.]252[.]150</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]99[.]169[.]66</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>116[.]99[.]171[.]150</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>117[.]102[.]101[.]50</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>117[.]2[.]125[.]84</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>118[.]187[.]8[.]10</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>118[.]95[.]33[.]69</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>119[.]28[.]84[.]193</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>120[.]192[.]20[.]57</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>120[.]48[.]0[.]142</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>120[.]48[.]52[.]177</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>120[.]48[.]90[.]166</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>121[.]160[.]25[.]114</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>121[.]242[.]232[.]216</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>121[.]6[.]97[.]6</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>122[.]225[.]202[.]130</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>123[.]139[.]242[.]2</code></td>
+        <td><code>ipv4</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>27</td>
+        <td>Live_EmergingThreats_Compromised</td>
+        <td>emerging_threats, compromised_host</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-16</td>
+      </tr>
+      <tr>
+        <td><code>44d88612fea8a8f36de82e1278abb02f</code></td>
+        <td><code>md5</code></td>
+        <td><span class="sev-tag sev-LOW">LOW</span></td>
+        <td>26</td>
+        <td>AlienVault_OTX</td>
+        <td>external_osint, emotet_loader, otx</td>
+        <td style="color: var(--text-muted); font-size: 12px;">2026-10-08</td>
+      </tr>
+      <tr id="noResultsRow" style="display: none;">
+        <td colspan="7" style="text-align: center; padding: 40px 16px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">🛡️</div>
+          <div style="font-size: 16px; font-weight: 700; color: #10b981; margin-bottom: 6px;">Clean / Unflagged Indicator</div>
+          <div style="font-size: 14px; color: var(--text-main); margin-bottom: 4px;">No malicious record found for "<span id="noResultsQuery" style="color: var(--accent-cyan); font-weight: 600;"></span>"</div>
+          <div style="font-size: 12px; color: var(--text-muted);">This indicator does not appear in any active threat feeds (Safe / Not in Blocklists).</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+function filterTable() {
+  var input = document.getElementById("iocSearch");
+  var rawQuery = (input ? input.value : "").trim().toLowerCase();
+  var cleanQuery = rawQuery.replace(/\[\.\]/g, ".").replace(/\[:\]/g, ":").replace(/\[@\]/g, "@");
+
+  var sevSelect = document.getElementById("sevFilter");
+  var selectedSev = (sevSelect ? sevSelect.value : "").trim().toUpperCase();
+
+  var typeSelect = document.getElementById("typeFilter");
+  var selectedType = (typeSelect ? typeSelect.value : "").trim().toLowerCase();
+
+  var rows = document.querySelectorAll("#iocTable tbody tr:not(#noResultsRow)");
+  var visibleCount = 0;
+
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var cells = row.getElementsByTagName("td");
+    if (cells.length < 3) continue;
+
+    var iocType = cells[1].textContent.trim().toLowerCase();
+    var iocSev = cells[2].textContent.trim().toUpperCase();
+
+    // Severity filter check
+    if (selectedSev && iocSev.indexOf(selectedSev) === -1) {
+      row.style.display = "none";
+      continue;
+    }
+
+    // Type filter check
+    if (selectedType && iocType !== selectedType) {
+      row.style.display = "none";
+      continue;
+    }
+
+    // Text query check across all row contents
+    var rowRawText = (row.textContent || "").toLowerCase();
+    var rowCleanText = rowRawText.replace(/\[\.\]/g, ".").replace(/\[:\]/g, ":").replace(/\[@\]/g, "@");
+
+    if (!rawQuery || rowRawText.indexOf(rawQuery) !== -1 || rowCleanText.indexOf(cleanQuery) !== -1) {
+      row.style.display = "";
+      visibleCount++;
+    } else {
+      row.style.display = "none";
+    }
+  }
+
+  var noResults = document.getElementById("noResultsRow");
+  var noResultsQuery = document.getElementById("noResultsQuery");
+  if (noResults) {
+    if (visibleCount === 0 && (rawQuery || selectedSev || selectedType)) {
+      noResults.style.display = "";
+      if (noResultsQuery) {
+        noResultsQuery.textContent = rawQuery || (selectedSev ? "Severity: " + selectedSev : "") || (selectedType ? "Type: " + selectedType : "");
+      }
+    } else {
+      noResults.style.display = "none";
+    }
+  }
+
+  var stats = document.getElementById("searchStats");
+  if (stats) {
+    var filterParts = [];
+    if (rawQuery) filterParts.push('query: "' + rawQuery + '"');
+    if (selectedSev) filterParts.push('severity: ' + selectedSev);
+    if (selectedType) filterParts.push('type: ' + selectedType);
+
+    if (filterParts.length === 0) {
+      stats.textContent = "Showing all " + rows.length + " indicators";
+    } else {
+      stats.textContent = "Showing " + visibleCount + " of " + rows.length + " indicators (" + filterParts.join(", ") + ")";
+    }
+  }
+}
+
+function clearSearch() {
+  var input = document.getElementById("iocSearch");
+  if (input) input.value = "";
+  var sevSelect = document.getElementById("sevFilter");
+  if (sevSelect) sevSelect.value = "";
+  var typeSelect = document.getElementById("typeFilter");
+  if (typeSelect) typeSelect.value = "";
+  filterTable();
+  if (input) input.focus();
+}
+
+function bindSearchEvents() {
+  var input = document.getElementById("iocSearch");
+  if (input) {
+    input.addEventListener("input", filterTable);
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        filterTable();
+        e.preventDefault();
+      }
+    });
+  }
+  var btn = document.getElementById("searchIndicatorBtn");
+  if (btn) {
+    btn.addEventListener("click", filterTable);
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bindSearchEvents);
+} else {
+  bindSearchEvents();
+}
+</script>
+</body>
+</html>

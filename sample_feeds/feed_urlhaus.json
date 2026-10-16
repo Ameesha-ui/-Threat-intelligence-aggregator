@@ -1,0 +1,41 @@
+{
+  "query_status": "ok",
+  "urls": [
+    {
+      "id": "1001",
+      "url": "hxxp://185[.]220[.]101[.]5/payload[.]bin",
+      "url_status": "online",
+      "threat": "payload_delivery",
+      "tags": ["trojan", "dropper", "cobaltstrike"],
+      "date_added": "2026-10-11T16:45:00Z",
+      "confidence": 95
+    },
+    {
+      "id": "1002",
+      "url": "http://evil-c2-update.top/beacon.php?id=892",
+      "url_status": "online",
+      "threat": "c2_traffic",
+      "tags": ["c2", "apt29", "beacon"],
+      "date_added": "2026-10-12T01:10:00Z",
+      "confidence": 90
+    },
+    {
+      "id": "1003",
+      "url": "https://cdn-invoices-verify.xyz/login/auth.exe",
+      "url_status": "online",
+      "threat": "infostealer_drop",
+      "tags": ["infostealer", "redline"],
+      "date_added": "2026-10-13T18:00:00Z",
+      "confidence": 85
+    },
+    {
+      "id": "1004",
+      "url": "http://malicious-telemetry.cc/gate.php",
+      "url_status": "offline",
+      "threat": "botnet_gate",
+      "tags": ["botnet", "loader"],
+      "date_added": "2026-10-14T03:30:00Z",
+      "confidence": 75
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Threat Intelligence Aggregator - Domain Blocklist
+# Count: 3 (Min Severity: LOW)
+beacon-command-portal.xyz
+evil-c2-update.top
+secure-login-microsoft.online

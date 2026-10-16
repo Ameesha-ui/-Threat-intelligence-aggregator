@@ -1,0 +1,54 @@
+{
+  "type": "bundle",
+  "id": "bundle--7a0b349b-7e62-4217-b715-06399c51a021",
+  "objects": [
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--e611f7c8-0ef4-4f0f-8b9a-4122d480e65c",
+      "created": "2026-10-10T12:00:00.000Z",
+      "modified": "2026-10-10T12:00:00.000Z",
+      "name": "LockBit 3.0 Ransomware Payload Hash",
+      "pattern": "[file:hashes.'SHA-256' = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855']",
+      "pattern_type": "stix",
+      "indicator_types": ["malicious-activity", "ransomware"],
+      "confidence": 95
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--d1045b18-b271-4ce8-8884-bb6669ea7651",
+      "created": "2026-10-11T09:30:00.000Z",
+      "modified": "2026-10-11T09:30:00.000Z",
+      "name": "State-Sponsored C2 Infrastructure IP",
+      "pattern": "[ipv4-addr:value = '45.154.255.89']",
+      "pattern_type": "stix",
+      "indicator_types": ["c2", "apt"],
+      "confidence": 90
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--b238ef12-9c12-4234-9271-923847291038",
+      "created": "2026-10-12T15:20:00.000Z",
+      "modified": "2026-10-12T15:20:00.000Z",
+      "name": "Adversary Domain Infrastructure",
+      "pattern": "[domain-name:value = 'evil-c2-update.top']",
+      "pattern_type": "stix",
+      "indicator_types": ["c2", "apt"],
+      "confidence": 90
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--c3491290-3490-4491-b129-948194819481",
+      "created": "2026-10-13T08:15:00.000Z",
+      "modified": "2026-10-13T08:15:00.000Z",
+      "name": "Exploit Delivery Staging Server",
+      "pattern": "[ipv4-addr:value = '194.26.29.112']",
+      "pattern_type": "stix",
+      "indicator_types": ["exploit", "c2"],
+      "confidence": 85
+    }
+  ]
+}

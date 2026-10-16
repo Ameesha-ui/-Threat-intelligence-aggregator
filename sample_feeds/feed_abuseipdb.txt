@@ -1,0 +1,12 @@
+# AbuseIPDB Malicious IP Feed Export
+# Defanged indicators commonly found in threat exchange channels
+# Generated for automated ingest
+
+185[.]220[.]101[.]5       # Port scanner & Tor exit observed targeting SSH
+45[.]154[.]255[.]89       # Cobalt strike teamserver communication
+193[.]142[.]59[.]174      # Mirai botnet brute-forcing Telnet
+103[.]251[.]167[.]20      # Web shell interaction
+91[.]240[.]118[.]172      # Qakbot C2
+194[.]26[.]29[.]112       # Active LockBit ransomware staging server
+127.0.0.1                 # Internal loopback test (should be flagged as bogon)
+10[.]0[.]5[.]23           # Internal RFC1918 test (should be flagged as private/bogon)

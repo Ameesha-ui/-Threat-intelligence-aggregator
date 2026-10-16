@@ -1,0 +1,10 @@
+indicator,type,threat,confidence,first_seen
+185.220.101.5,IPv4,tor_exit_node;c2,85,2026-10-10T08:00:00Z
+45.154.255.89,IPv4,cobaltstrike;c2,90,2026-10-11T12:30:00Z
+194.26.29.112,IPv4,ransomware_beacon,80,2026-10-12T04:15:00Z
+evil-c2-update.top,domain,c2;apt29,95,2026-10-09T14:00:00Z
+secure-login-microsoft.online,domain,phishing;credential-theft,75,2026-10-13T09:20:00Z
+http://185.220.101.5/payload.bin,URL,trojan;dropper,90,2026-10-11T16:45:00Z
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,sha256,ransomware_lockbit,95,2026-10-10T11:00:00Z
+44d88612fea8a8f36de82e1278abb02f,md5,emotet_loader,85,2026-10-08T07:12:00Z
+attacker@spoofed-bank-alert.com,email,phishing,70,2026-10-12T10:00:00Z
