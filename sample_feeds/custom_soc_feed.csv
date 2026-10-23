@@ -1,6 +1,6 @@
 ioc,ioc_type,threat,severity,timestamp
-phishing-test-sender@security-audit.com,email,spear_phishing_simulation,HIGH,2026-10-16T10:00:00Z
-corporate-spoof-alert@fake-login-service.org,email,credential_harvesting,CRITICAL,2026-10-16T10:05:00Z
-194.26.29.112,ipv4,c2_callback_beacon,CRITICAL,2026-10-16T10:10:00Z
-beacon-command-portal.xyz,domain,c2_dns_exfiltration,HIGH,2026-10-16T10:15:00Z
+phishing-test@example.com,email,spear_phishing_simulation,HIGH,2026-10-16T10:00:00Z
+corporate-alert@example.org,email,credential_harvesting,CRITICAL,2026-10-16T10:05:00Z
+198.51.100.25,ipv4,c2_callback_beacon,CRITICAL,2026-10-16T10:10:00Z
+c2-demo.example,domain,c2_dns_exfiltration,HIGH,2026-10-16T10:15:00Z
 d41d8cd98f00b204e9800998ecf8427e,md5,malicious_mimikatz_loader,HIGH,2026-10-16T10:20:00Z

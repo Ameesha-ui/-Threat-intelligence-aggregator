@@ -208,51 +208,59 @@ flowchart TD
 
 ```
 threat-intelligence-aggregator/
-├── config.json                     # System & feed configuration
-├── main.py                         # CLI entry point and pipeline orchestrator
-├── server.py                       # Lightweight local dashboard web server
-├── sample_feeds/                   # Realistic test feeds
-│   ├── feed_abuseipdb.txt          # Plaintext community IP blocklist
-│   ├── feed_alienvault_otx.csv     # Commercial CSV threat feed
-│   ├── feed_cisa_alerts.stix.json  # Government CERT STIX 2.0 bundle
-│   ├── feed_internal_siem.csv      # Internal SOC detections
-│   └── feed_urlhaus.json           # Malicious malware URLs (JSON)
-├── threat_aggregator/              # Core python package
-│   ├── __init__.py                 # Package exports and version
-│   ├── models.py                   # UnifiedIOC, FeedDefinition, IOCType, Severity
-│   ├── collector.py                # FeedCollector (HTTP & local file fetcher)
-│   ├── defang.py                   # Safe refang & defang algorithms
-│   ├── validators.py               # Regex validators & bogon checks
-│   ├── normalizer.py               # NormalizationEngine & deduplicator
-│   ├── correlation.py              # CorrelationEngine & risk scoring
-│   ├── blocklist.py                # BlocklistGenerator (iptables, hosts, CSV)
-│   ├── reporter.py                 # ThreatReporter (CLI, JSON, CSV, MD, HTML)
-│   └── parsers/                    # Feed format parsers
-│       ├── __init__.py             # Parser registry & get_parser factory
-│       ├── base.py                 # Abstract BaseParser class
-│       ├── csv_parser.py           # Delimiter sniffing CSV parser
-│       ├── txt_parser.py           # Line-oriented & token text parser
-│       ├── json_parser.py          # Structured JSON array/envelope parser
-│       └── stix_parser.py          # STIX 2.0/2.1 pattern extractor
-└── output/                         # Generated artifacts
+├── config.json                         # System & feed configuration
+├── main.py                             # CLI entry point and pipeline orchestrator
+├── server.py                           # Lightweight local dashboard web server
+├── tests/                             # Automated unit tests
+│   └── test_aggregator.py             # Tests for core components
+├── test_data/                         # Test data
+│   └── bogon_test.csv                 # Sample data for bogon filtering
+├── sample_feeds/                        # Sample feeds for testing and demonstration; not verified live threat intelligence
+│   ├── feed_abuseipdb.txt              # Plaintext community IP blocklist
+│   ├── feed_alienvault_otx.csv         # Commercial CSV threat feed
+│   ├── feed_cisa_alerts.stix.json      # Government CERT STIX 2.0 bundle
+│   ├── feed_internal_siem.csv          # Internal SOC detections
+│   └── feed_urlhaus.json               # Malicious malware URLs (JSON)
+├── threat_aggregator/                  # Core python package
+│   ├── __init__.py                     # Package exports and version
+│   ├── models.py                       # UnifiedIOC, FeedDefinition, IOCType, Severity
+│   ├── collector.py                    # FeedCollector (HTTP & local file fetcher)
+│   ├── defang.py                       # Safe refang & defang algorithms
+│   ├── validators.py                   # Regex validators & bogon checks
+│   ├── normalizer.py                   # NormalizationEngine & deduplicator
+│   ├── correlation.py                  # CorrelationEngine & risk scoring
+│   ├── blocklist.py                    # BlocklistGenerator (iptables, hosts, CSV)
+│   ├── reporter.py                     # ThreatReporter (CLI, JSON, CSV, MD, HTML)
+│   └── parsers/                         # Feed format parsers
+│       ├── __init__.py                 # Parser registry & get_parser factory
+│       ├── base.py                     # Abstract BaseParser class
+│       ├── csv_parser.py               # Delimiter sniffing CSV parser
+│       ├── txt_parser.py               # Line-oriented & token text parser
+│       ├── json_parser.py              # Structured JSON array/envelope parser
+│       └── stix_parser.py              # STIX 2.0/2.1 pattern extractor
+└── output/                             # Generated artifacts
     ├── database/
-    │   └── normalized_iocs.json    # Complete normalized JSON database
+    │   └── normalized_iocs.json        # Complete normalized JSON database
     ├── blocklists/
-    │   ├── firewall_ips.txt        # Plain IPs for firewalls
-    │   ├── firewall_iptables.sh    # Linux iptables rules
-    │   ├── webfilter_domains.txt   # FQDNs for proxies
-    │   ├── webfilter_hosts.txt     # Standard hosts file sinkhole
-    │   ├── webfilter_urls.txt      # Malicious URLs
-    │   ├── edr_hashes.txt          # Hashes for AV/EDR
-    │   └── edr_hashes.csv          # Tagged hashes with severity
+    │   ├── edr_hashes.csv              # EDR hash list in CSV format
+    │   ├── edr_hashes.txt              # Plain-text EDR hash list
+    │   ├── firewall_ips.txt            # Malicious IP addresses
+    │   ├── firewall_iptables.sh        # Linux iptables rules
+    │   ├── firewall_windows.ps1        # Windows firewall script
+    │   ├── snort_threat_intel.rules    # Snort detection rules
+    │   ├── suricata_threat_intel.rules # Suricata detection rules
+    │   ├── webfilter_domains.txt       # Malicious domains
+    │   ├── webfilter_hosts.txt         # DNS sinkhole hosts
+    │   └── webfilter_urls.txt          # Malicious URLs
     └── reports/
-        ├── threat_report.html      # Interactive SOC HTML report
-        ├── threat_report.md        # Executive markdown report
-        ├── threat_report.json      # Structured summary metrics
-        └── threat_report.csv       # Flat IOC spreadsheet
+        ├── threat_report.html          # Interactive SOC HTML report
+        ├── threat_report.md            # Executive markdown report
+        ├── threat_report.json          # Structured summary metrics
+        └── threat_report.csv           # Flat IOC spreadsheet
 ```
 
 ---
+
 
 ## 10. Configuration Schema (`config.json`)
 
@@ -402,6 +410,7 @@ Upon pipeline completion, the following deliverables are populated in `output/`:
 ### 2. Operational Blocklists & IDS Signatures
 - **`output/blocklists/firewall_ips.txt`**: Consolidated malicious IPv4/IPv6 addresses.
 - **`output/blocklists/firewall_iptables.sh`**: Ready-to-execute Linux firewall script.
+- **`output/blocklists/firewall_windows.ps1`**: PowerShell script for applying firewall block rules on Windows.
 - **`output/blocklists/webfilter_domains.txt`**: Clean list of malicious domains.
 - **`output/blocklists/webfilter_hosts.txt`**: `/etc/hosts` DNS sinkhole blocking configuration.
 - **`output/blocklists/webfilter_urls.txt`**: Payload URLs for web application firewalls and proxy filters.

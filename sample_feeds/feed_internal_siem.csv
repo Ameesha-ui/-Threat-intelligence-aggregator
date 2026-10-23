@@ -3,5 +3,5 @@ ioc,ioc_type,threat,severity,timestamp
 185.220.101.5,ipv4,firewall_denied_outbound,HIGH,2026-10-14T03:15:00Z
 evil-c2-update.top,domain,dns_tunneling_attempt,CRITICAL,2026-10-14T03:30:00Z
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,sha256,edr_quarantined_ransomware,CRITICAL,2026-10-14T04:00:00Z
-phishing-campaign-alert@internal-corp.net,email,spear_phishing_sender,MEDIUM,2026-10-14T05:00:00Z
+phishing-alert@example.com,email,spear_phishing_sender,MEDIUM,2026-10-14T05:00:00Z
 198.51.100.44,ipv4,vpn_unauthorized_access,MEDIUM,2026-10-14T06:22:00Z

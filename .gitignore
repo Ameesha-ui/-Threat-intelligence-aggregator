@@ -9,7 +9,7 @@ __pycache__/
 *.swp
 *.swo
 
-# Operating System files
+# Operating system files
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -18,3 +18,28 @@ desktop.ini
 venv/
 .venv/
 env/
+
+# Local backup and temporary files
+README_backup.md
+README_before_test_tree_update.md
+README_before_github_merge_backup.md
+.gitignore_backup
+github_LICENSE_temp.txt
+t-Path .README_before_github_merge_backup.md
+
+# Temporary bogon test configurations and outputs
+config_bogon_test.json
+config_bogon_full_test.json
+output/bogon-test/
+output/bogon-full-test/
+
+# Scratch workspace
+scratch/
+
+# Sample-feed backups
+sample_feeds/*_backup.csv
+
+# Generated output - keep local, do not publish
+output/blocklists/
+output/database/
+output/reports/

@@ -1,0 +1,4 @@
+﻿ioc,ioc_type,threat,severity,timestamp
+192.168.1.1,ipv4,bogon_filter_test,HIGH,2026-10-18T10:00:00Z
+8.8.8.8,ipv4,public_ip_test,HIGH,2026-10-18T10:05:00Z
+127.0.0.1,ipv4,loopback_filter_test,HIGH,2026-10-18T10:10:00Z
