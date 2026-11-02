@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/output/reports/threat_report.html"
+      "destination": "/threat_report.html"
     }
   ]
 }
