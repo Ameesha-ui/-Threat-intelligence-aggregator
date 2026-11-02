@@ -23,13 +23,36 @@ class ThreatReportHandler(http.server.SimpleHTTPRequestHandler):
         return super().do_GET()
 
 
-def start_server(port: int = 8080):
-    """Starts the local dashboard web server."""
+class ReusableTCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+
+def start_server(port: int = 8080, max_retries: int = 10):
+    """Starts the local dashboard web server with automatic port fallback if occupied."""
     handler = ThreatReportHandler
-    with socketserver.TCPServer(("", port), handler) as httpd:
-        url = f"http://localhost:{port}/output/reports/threat_report.html"
-        print(f"\n[+] Serving Threat Intelligence Dashboard at: {url}")
-        print("[*] Press Ctrl+C to terminate the dashboard server.")
+    current_port = port
+    httpd = None
+
+    for _ in range(max_retries):
+        try:
+            httpd = ReusableTCPServer(("", current_port), handler)
+            break
+        except OSError as e:
+            # 10048 (Windows), 98 (Linux), 48 (macOS) mean port already in use
+            if getattr(e, "winerror", None) == 10048 or getattr(e, "errno", None) in (48, 98, 10048):
+                print(f"[!] Port {current_port} is in use. Trying port {current_port + 1}...", flush=True)
+                current_port += 1
+            else:
+                raise
+
+    if not httpd:
+        print(f"[!] Could not bind to any port between {port} and {port + max_retries - 1}.", flush=True)
+        return
+
+    with httpd:
+        url = f"http://localhost:{current_port}/output/reports/threat_report.html"
+        print(f"\n[+] Serving Threat Intelligence Dashboard at: {url}", flush=True)
+        print("[*] Press Ctrl+C to terminate the dashboard server.", flush=True)
         try:
             webbrowser.open(url)
         except Exception:
@@ -38,3 +61,8 @@ def start_server(port: int = 8080):
             httpd.serve_forever()
         except KeyboardInterrupt:
             print("\n[*] Dashboard server stopped.")
+
+
+if __name__ == "__main__":
+    start_server()
+

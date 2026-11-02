@@ -39,7 +39,3 @@ scratch/
 # Sample-feed backups
 sample_feeds/*_backup.csv
 
-# Generated output - keep local, do not publish
-output/blocklists/
-output/database/
-output/reports/

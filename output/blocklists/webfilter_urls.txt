@@ -1,0 +1,6 @@
+# Threat Intelligence Aggregator - Malicious URL Blocklist
+# Count: 4 (Min Severity: LOW)
+http://185.220.101.5/payload.bin
+http://evil-c2-update.top/beacon.php?id=892
+http://malicious-telemetry.cc/gate.php
+https://cdn-invoices-verify.xyz/login/auth.exe

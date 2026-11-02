@@ -85,6 +85,8 @@ def run_pipeline(
     print("\n[*] STEP 4: Executing Cross-Feed Correlation & Risk Scoring...")
     correlator = CorrelationEngine(feed_weights=feed_weights)
     correlated_iocs = correlator.correlate(normalized_iocs)
+    print("DEBUG: Correlated IOC count =", len(correlated_iocs))
+    
     correlation_stats = correlator.generate_correlation_matrix(correlated_iocs)
     print(f"[+] Correlation Complete: {correlation_stats['total_repeated_iocs']} multi-feed repeated threats identified.")
 
